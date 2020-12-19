@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Home</h1>
-        
+        登录注册
     </div>
 </template>
