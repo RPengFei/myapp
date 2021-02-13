@@ -13,7 +13,12 @@
 </template>
 
 <script>
-import { Button } from "element-ui";
-
-export default {};
+import axios from "axios";
+export default {
+  mounted: function () {
+    axios.get("/api/users").then((res) => {
+      console.log(res);
+    });
+  },
+};
 </script>
