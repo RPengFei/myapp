@@ -16,7 +16,7 @@
 import axios from "axios";
 export default {
   mounted: function () {
-    axios.get("/api/users").then((res) => {
+    axios.post("/node/getData").then((res) => {
       console.log(res);
     });
   },

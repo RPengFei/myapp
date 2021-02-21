@@ -6,19 +6,12 @@ module.exports = {
 		// host: "localhost",
 		// port: '8080',
 		proxy: {
-			// '/api': {
-			// 	target: 'https://segmentfault.com', // 请求服务器根路径,这里必须加上 http/https://
-			// 	changeOrigin: true, // 是否跨域
-			// 	// ws: true,   // websocket
-			// 	// pathRewrite: {    // 重写路径: 当检测到请求地址里包含 /v1 时,将此路径进行跨域代理操作
-			// 	// 	'^/api': '/api'
-			// 	// }
-			// },
-			'/api': {
-				target: 'http://localhost:3001',
+			'/node': {
+				target: 'http://1.15.55.30:3001', // 请求服务器根路径,这里必须加上 http/https://
 				changeOrigin: true, // 是否跨域
+				// ws: true,   // websocket
 				pathRewrite: { // 重写路径: 当检测到请求地址里包含 /v1 时,将此路径进行跨域代理操作
-					// '^/api': ''
+					'^/node': 'api'
 				}
 			}
 		}
