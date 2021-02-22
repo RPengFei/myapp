@@ -4,6 +4,7 @@ import store from './store'
 import './plugins/element.js'
 
 import App from './App.vue'
+import './plugins/rest.css'
 
 Vue.config.productionTip = false
 
