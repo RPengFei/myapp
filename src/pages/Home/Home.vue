@@ -22,3 +22,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+@color: red;
+h1 {
+  color: @color;
+}
+</style>
