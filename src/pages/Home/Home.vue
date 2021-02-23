@@ -33,5 +33,6 @@ export default {
 @color: red;
 h1 {
   color: @color;
+  font-size: 0.5rem;
 }
 </style>
