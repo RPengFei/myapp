@@ -2,13 +2,13 @@
   <div>
     <h1>Home</h1>
     <el-row>
-      <el-button>默认按钮</el-button>
-      <el-button type="primary">主要按钮</el-button>
       <el-button type="success">成功按钮</el-button>
-      <el-button type="info">信息按钮</el-button>
-      <el-button type="warning">警告按钮</el-button>
-      <el-button type="danger">危险按钮</el-button>
     </el-row>
+    <ul>
+      <li>{{ this.user.id }}</li>
+      <li>{{ this.user.phone }}</li>
+      <li>{{ this.user.username }}</li>
+    </ul>
   </div>
 </template>
 
@@ -18,7 +18,13 @@ export default {
   mounted: function () {
     axios.post("/node/getData").then((res) => {
       console.log(res);
+      this.user = res.data;
     });
+  },
+  data: function (params) {
+    return {
+      user: {},
+    };
   },
 };
 </script>
