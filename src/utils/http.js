@@ -4,10 +4,11 @@
 
 import axios from "axios"
 import qs from "querystring"
+import strong from './Storage'
 
 // 错误信息处理函数
-const errorHandle = (status,other) =>{
-    switch(status){
+const errorHandle = (status, other) => {
+    switch (status) {
         case 400:
             // 请求次数的限制
             console.log("服务器请求限制");
@@ -37,11 +38,11 @@ const instance = axios.create({
 
 instance.defaults.baseURL = "";
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+instance.headers.Authorization = strong.getItem('token')
 // 拦截器
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
-    if(config.method === 'post'){
+    if (config.method === 'post') {
         config.data = qs.stringify(config.data);
     }
     return config;
@@ -53,11 +54,13 @@ instance.interceptors.response.use(
     response => response.status === 200 ? Promise.resolve(response) : Promise.reject(response),
     // 失败
     error => {
-        const { response } = error;
-        if(response){
-            errorHandle(response.status,response.data)
+        const {
+            response
+        } = error;
+        if (response) {
+            errorHandle(response.status, response.data)
             return Promise.reject(response)
-        }else{
+        } else {
             // response不存在，服务器没有响应
             console.log("请求被中断");
         }
