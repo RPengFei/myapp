@@ -21,17 +21,22 @@
 import axios from "../../utils/http";
 export default {
   mounted: function () {
-    this.$axios.post("/local", { data: "getUser" }).then((res) => {
-      console.log(res);
-      this.user = res.data;
-    });
-    axios.post("/local", { data: "getUsers" }).then((res) => {
-      console.log(res);
-      // this.user = res.data;
-    });
-    axios.post("/local", { data: "list" }).then((res) => {
+    // this.$axios.post("/api", { data: "getUser" }).then((res) => {
+    //   console.log(res);
+    //   if (res.data) {
+    //     this.user = res.data;
+    //   }
+    // });
+
+    // axios.post("/local", { data: "getUsers" }).then((res) => {
+    //   console.log(res);
+    //   // this.user = res.data;
+    // });
+    axios.post("/api/api_list", { data: "list" }).then((res) => {
       console.log(res.data.domain_list);
-      this.domain_list = res.data.domain_list;
+      if (res.data) {
+        this.domain_list = res.data.domain_list;
+      }
       // this.user = res.data;
     });
   },

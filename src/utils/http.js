@@ -35,8 +35,10 @@ const instance = axios.create({
 /**
  * token:登陆 令牌
  */
+if (location.hostname != 'localhost') {
+    instance.defaults.baseURL = "http://localhost:3001";
+}
 
-instance.defaults.baseURL = "";
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // instance.defaults.headers.Authorization = strong.getItem('token')
 instance.defaults.headers.authorization = "token:1234567894564651211564"
