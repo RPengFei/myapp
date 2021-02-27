@@ -24,7 +24,8 @@ export default {
     // this.$axios.post("/api", { data: "getUser" }).then((res) => {
     //   console.log(res);
     //   if (res.data) {
-    //     this.user = res.data;
+
+    //     this.user = res.datass;
     //   }
     // });
 
