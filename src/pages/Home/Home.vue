@@ -21,7 +21,7 @@
 import axios from "../../utils/http";
 export default {
   mounted: function () {
-    axios.post("/local", { data: "getUser" }).then((res) => {
+    this.$axios.post("/local", { data: "getUser" }).then((res) => {
       console.log(res);
       this.user = res.data;
     });

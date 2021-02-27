@@ -38,7 +38,8 @@ const instance = axios.create({
 
 instance.defaults.baseURL = "";
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-instance.headers.Authorization = strong.getItem('token')
+// instance.defaults.headers.Authorization = strong.getItem('token')
+instance.defaults.headers.authorization = "token:1234567894564651211564"
 // 拦截器
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
