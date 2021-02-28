@@ -4,27 +4,29 @@ import VueRouter from 'vue-router'
 import Home from '../pages/Home/Home'
 import Login from '../pages/Login/Login'
 import Layout from '../pages/Layout'
-
+import TodoList from '../pages/TodoList/TodoList'
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'layout',
       component: Layout,
-      children: [
-        {
-          path: '/',
-          name: 'home',
-          component: Home
-        },
-      ]
+      children: [{
+        path: '/',
+        name: 'home',
+        component: Home
+      }, {
+        path: '/todoList',
+        name: 'todoList',
+        component: TodoList
+      }]
     },
     {
       path: '/login',
       name: 'login',
       component: Login
-    }
+    },
+
   ]
 })
 export default router

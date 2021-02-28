@@ -1,76 +1,63 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <el-row>
-      <el-button type="success">成功按钮</el-button>
-    </el-row>
+    <el-carousel :interval="4000" type="card" height="300px" width="700px">
+      <el-carousel-item v-for="item in imgList" :key="item.id">
+        <img :src="item.src" alt="" />
+      </el-carousel-item>
+    </el-carousel>
 
-    <el-table
-      :data="domain_list"
-      style="width: 100%"
-      :row-class-name="tableRowClassName"
-    >
-      <el-table-column prop="id" label="日期" width="180"> </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="url" label="地址"> </el-table-column>
-    </el-table>
+    <list :list="domain_list"></list>
   </div>
 </template>
 
 <script>
-import axios from "../../utils/http";
+import list from "../../components/list";
 export default {
+  components: {
+    list,
+  },
   mounted: function () {
-    // this.$axios.post("/api", { data: "getUser" }).then((res) => {
-    //   console.log(res);
-    //   if (res.data) {
+    // var data = {
+    //   servername: "register",
+    //   data: {
+    //     username: "user1",
+    //     password: "123456",
+    //   },
+    // };
 
-    //     this.user = res.datass;
-    //   }
-    // });
+    // this.$axios.post("/local", data);
 
-    // axios.post("/local", { data: "getUsers" }).then((res) => {
-    //   console.log(res);
-    //   // this.user = res.data;
-    // });
-    axios.post("/api/api_list", { data: "list" }).then((res) => {
-      console.log(res.data.domain_list);
-      if (res.data) {
-        this.domain_list = res.data.domain_list;
-      }
-      // this.user = res.data;
-    });
+    this.$axios
+      .post("/local", {
+        data: "list",
+      })
+      .then((res) => {
+        console.log(res);
+
+        console.log(res.data.domain_list);
+        if (res.data) {
+          this.domain_list = res.data.domain_list;
+        }
+      });
+
+    for (let index = 0; index < 5; index++) {
+      this.imgList.push({
+        id: index,
+        src:
+          "https://picsum.photos/700/300?random=" +
+          Math.ceil(Math.random() * 10),
+      });
+    }
   },
   data: function (params) {
     return {
-      user: {},
+      imgList: [],
       domain_list: [],
     };
   },
-  methods: {
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return "warning-row";
-      } else if (rowIndex === 3) {
-        return "success-row";
-      }
-      return "";
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="less" scope>
-@color: red;
-h1 {
-  color: @color;
-  font-size: 0.5rem;
-}
-.el-table .warning-row {
-  background: oldlace;
-}
-
-.el-table .success-row {
-  background: #f0f9eb;
-}
 </style>

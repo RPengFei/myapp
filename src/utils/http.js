@@ -1,7 +1,3 @@
-/**
- * 封装axios
- */
-
 import axios from "axios"
 import qs from "querystring"
 import strong from './Storage'
@@ -32,22 +28,20 @@ const instance = axios.create({
     timeout: 5000
 })
 
+instance.defaults.baseURL = location.origin;
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 /**
  * token:登陆 令牌
  */
 
-instance.defaults.baseURL = location.origin;
-console.log(location.hostname);
-
-
-instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // instance.defaults.headers.Authorization = strong.getItem('token')
-instance.defaults.headers.authorization = "token:1234567894564651211564"
+instance.defaults.headers.Authorization = "token:1234567894564651211564"
 // 拦截器
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
     if (config.method === 'post') {
-        config.data = qs.stringify(config.data);
+        console.log(config);
     }
     return config;
 }, error => Promise.reject(error));
