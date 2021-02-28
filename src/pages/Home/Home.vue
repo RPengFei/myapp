@@ -7,6 +7,8 @@
     </el-carousel>
 
     <list :list="domain_list"></list>
+
+    <h1>{{ $store.state.name }}</h1>
   </div>
 </template>
 
@@ -24,17 +26,18 @@ export default {
     //     password: "123456",
     //   },
     // };
-
+    // setTimeout(() => {
+    //   this.$store.state.name = "eee";
+    //   // this.$store.mounted
+    // }, 5000);
     // this.$axios.post("/local", data);
 
     this.$axios
-      .post("/local", {
+      .post("/api/api_list", {
         data: "list",
       })
       .then((res) => {
         console.log(res);
-
-        console.log(res.data.domain_list);
         if (res.data) {
           this.domain_list = res.data.domain_list;
         }
