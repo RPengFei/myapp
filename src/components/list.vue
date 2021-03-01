@@ -5,9 +5,15 @@
     :row-class-name="tableRowClassName"
     :autoplay="true"
   >
-    <el-table-column prop="id" label="ID" width="180"> </el-table-column>
-    <el-table-column prop="name" label="名称" width="180"> </el-table-column>
-    <el-table-column prop="url" label="地址"> </el-table-column>
+    <template v-for="(item, index) in headerConfig">
+      <el-table-column
+        :key="index"
+        :prop="item.prop"
+        :label="item.label"
+        :width="item.width"
+      >
+      </el-table-column>
+    </template>
   </el-table>
 </template>
 <script>
@@ -15,7 +21,10 @@ export default {
   name: "list",
   props: {
     list: Array,
+    headerConfig: Array,
   },
+  created: function () {},
+  mounted: function () {},
   data() {
     return {};
   },

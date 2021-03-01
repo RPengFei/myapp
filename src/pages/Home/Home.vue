@@ -6,7 +6,7 @@
       </el-carousel-item>
     </el-carousel>
 
-    <list :list="domain_list"></list>
+    <list :list="domain_list" :headerConfig="headerConfig"></list>
 
     <h1>{{ $store.state.name }}</h1>
   </div>
@@ -37,9 +37,9 @@ export default {
         data: "list",
       })
       .then((res) => {
-        console.log(res);
         if (res.data) {
           this.domain_list = res.data.domain_list;
+          console.log(this.domain_list);
         }
       });
 
@@ -56,6 +56,11 @@ export default {
     return {
       imgList: [],
       domain_list: [],
+      headerConfig: [
+        { prop: "id", label: "ID" },
+        { prop: "name", label: "名称" },
+        { prop: "url", label: "地址" },
+      ],
     };
   },
   methods: {},
