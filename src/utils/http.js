@@ -41,7 +41,7 @@ instance.defaults.headers.Authorization = "token:1234567894564651211564"
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
     if (config.method === 'post') {
-        console.log(config);
+
     }
     return config;
 }, error => Promise.reject(error));
@@ -49,7 +49,7 @@ instance.interceptors.request.use(config => {
 // 添加响应拦截器
 instance.interceptors.response.use(
     // 成功
-    response => response.status === 200 ? Promise.resolve(response) : Promise.reject(response),
+    response => response.status === 200 ? Promise.resolve(response.data) : Promise.reject(response),
     // 失败
     error => {
         const {

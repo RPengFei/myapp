@@ -34,11 +34,13 @@ export default {
 
     this.$axios
       .post("/api/api_list", {
-        data: "list",
+        servername: "file",
+        data: { file: "list" },
       })
       .then((res) => {
-        if (res.data) {
-          this.domain_list = res.data.domain_list;
+        console.log(res);
+        if (res.domain_list) {
+          this.domain_list = res.domain_list;
           console.log(this.domain_list);
         }
       });

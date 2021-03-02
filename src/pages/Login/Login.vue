@@ -107,6 +107,7 @@
   </div>
 </template>
 <script>
+import strong from "../../utils/Storage";
 export default {
   name: "Login",
   data() {
@@ -158,7 +159,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.loginForm);
-          alert("submit!");
+          this.$axios
+            .post("/api/api_list", {
+              servername: "login",
+              data: this.loginForm,
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.token) {
+                strong.setItem("token", res.token);
+                this.$router.push("/");
+              }
+            });
         } else {
           console.log("error submit!!");
           return false;
