@@ -6,9 +6,16 @@
         <div class="add">
           <el-input v-model="input" placeholder="请输入内容"></el-input>
           <el-button type="primary" @click="addMsg">添加</el-button>
+          <el-button type="success" @click="search">搜索</el-button>
+          <el-button type="warning" @click="rest">重置</el-button>
         </div>
 
-        <list :list="list" :headerConfig="headerConfig" :showAdd="true"></list>
+        <list
+          :list="list"
+          :headerConfig="headerConfig"
+          @deleteRow="deleteRow"
+          :showAdd="true"
+        ></list>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -23,7 +30,7 @@ export default {
   name: "todoList",
   data: function () {
     return {
-      list: [{ name: "事情A" }],
+      list: [],
       headerConfig: [{ prop: "name", label: "名称" }],
       input: undefined,
     };
@@ -31,14 +38,29 @@ export default {
   methods: {
     addMsg: function () {
       console.log(this.input);
+      this.list.push({ name: this.input });
+      this.input = null;
+      console.log(this.list);
       this.$message({
-        message: "恭喜你，这是一条成功消息",
+        message: "添加成功！",
         type: "success",
       });
-      // this.$message({
-      //   message: "警告哦，这是一条警告消息",
-      //   type: "warning",
-      // });
+    },
+    search: function () {},
+    deleteRow: function (index) {
+      console.log(index);
+      this.list.splice(index, 1);
+      this.$message({
+        message: "删除成功！",
+        type: "success",
+      });
+    },
+    rest: function () {
+      this.input = null;
+      this.getData();
+    },
+    getData: function (key) {
+      console.log(key);
     },
   },
 };
@@ -46,7 +68,7 @@ export default {
 
 <style scope>
 .add .el-input {
-  width: calc(100% - 80px);
+  width: calc(100% - 240px);
   margin-right: 10px;
 }
 </style>
