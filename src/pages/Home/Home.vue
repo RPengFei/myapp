@@ -20,17 +20,16 @@ export default {
   },
   mounted: function () {
     // var data = {
-    //   servername: "register",
+    //   servername: "updatePerson",
     //   data: {
-    //     username: "user1",
-    //     password: "123456",
+    //     id: "603ef159e25ff239e38c0eb4",
+    //     phone: "18855556666",
     //   },
     // };
-    // setTimeout(() => {
-    //   this.$store.state.name = "eee";
-    //   // this.$store.mounted
-    // }, 5000);
-    // this.$axios.post("/local", data);
+
+    // this.$axios.post("/api/api_list", data).then((res) => {
+    //   console.log(res);
+    // });
 
     this.$axios
       .post("/api/api_list", {
@@ -41,7 +40,6 @@ export default {
         console.log(res);
         if (res.domain_list) {
           this.domain_list = res.domain_list;
-          console.log(this.domain_list);
         }
       });
 
