@@ -1,7 +1,9 @@
 <template>
   <div>
     <myhader></myhader>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>

@@ -6,9 +6,11 @@
       </el-carousel-item>
     </el-carousel>
 
+    <h2>动态表头</h2>
     <list :list="domain_list" :headerConfig="headerConfig"></list>
 
-    <h1>{{ $store.state.name }}</h1>
+    <h2>VUEX</h2>
+    <p>vuex-name状态: {{ $store.state.name }}</p>
   </div>
 </template>
 
@@ -68,4 +70,7 @@ export default {
 </script>
 
 <style lang="less" scope>
+h2 {
+  text-align: center;
+}
 </style>
