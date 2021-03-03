@@ -5,7 +5,6 @@
         <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
         <div class="add">
           <el-input v-model="input" placeholder="请输入内容"></el-input>
-
           <el-button type="primary" @click="addMsg">添加</el-button>
         </div>
 
@@ -30,7 +29,8 @@ export default {
     };
   },
   methods: {
-    addMsg: function (params) {
+    addMsg: function () {
+      console.log(this.input);
       this.$message({
         message: "恭喜你，这是一条成功消息",
         type: "success",

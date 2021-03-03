@@ -15,7 +15,8 @@
             >
               <el-form-item label="用户名" prop="username">
                 <el-input
-                  v-model="loginForm.username"
+                  v-model.trim="loginForm.username"
+                  placeholder="请输入用户名"
                   prefix-icon="el-icon-s-custom"
                 ></el-input>
               </el-form-item>
@@ -24,7 +25,7 @@
                 <el-input
                   prefix-icon="el-icon-key"
                   placeholder="请输入密码"
-                  v-model="loginForm.password"
+                  v-model.trim="loginForm.password"
                   show-password
                 ></el-input>
               </el-form-item>
@@ -44,16 +45,16 @@
               class="demo-ruleForm"
             >
               <el-form-item label="用户名" prop="username">
-                <el-input v-model="register.username"></el-input>
+                <el-input v-model.trim="register.username"></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input v-model="register.password"></el-input>
+                <el-input v-model.trim="register.password"></el-input>
               </el-form-item>
               <el-form-item label="确认密码" prop="confirmpassword">
-                <el-input v-model="register.confirmpassword"></el-input>
+                <el-input v-model.trim="register.confirmpassword"></el-input>
               </el-form-item>
               <el-form-item label="手机号" prop="phone">
-                <el-input v-model="register.phone"></el-input>
+                <el-input v-model.trim="register.phone"></el-input>
               </el-form-item>
 
               <el-button type="primary" @click="registerSubmitForm('register')"
@@ -140,7 +141,7 @@ export default {
       registerRules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+          { min: 3, max: 6, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -159,6 +160,13 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.loginForm);
+          const loading = this.$loading({
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)",
+          });
+
           this.$axios
             .post("/api/api_list", {
               servername: "login",
@@ -166,9 +174,15 @@ export default {
             })
             .then((res) => {
               console.log(res);
+              loading.close();
               if (res.token) {
                 strong.setItem("token", res.token);
+                this.$store.state.token = res.token;
+                this.$store.state.user = res.buser;
+
                 this.$router.push("/");
+              } else {
+                this.$message.error(res.msg);
               }
             });
         } else {

@@ -35,8 +35,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
  * token:登陆 令牌
  */
 
-// instance.defaults.headers.Authorization = strong.getItem('token')
-instance.defaults.headers.Authorization = "token:1234567894564651211564"
+instance.defaults.headers.Authorization = strong.getItem('token')
 // 拦截器
 // 添加请求拦截器
 instance.interceptors.request.use(config => {

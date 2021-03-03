@@ -2,7 +2,9 @@
   <div>
     <myhader></myhader>
     <keep-alive>
-      <router-view></router-view>
+      <transition>
+        <router-view></router-view>
+      </transition>
     </keep-alive>
   </div>
 </template>

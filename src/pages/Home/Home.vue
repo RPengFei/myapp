@@ -1,11 +1,7 @@
 <template>
   <div>
-    <el-carousel :interval="4000" type="card" height="300px" width="700px">
-      <el-carousel-item v-for="item in imgList" :key="item.id">
-        <img :src="item.src" alt="" />
-      </el-carousel-item>
-    </el-carousel>
-
+    <!-- 轮播 -->
+    <Slider :imgList="imgList"></Slider>
     <h2>动态表头</h2>
     <list :list="domain_list" :headerConfig="headerConfig"></list>
 
@@ -16,9 +12,11 @@
 
 <script>
 import list from "../../components/list";
+import Slider from "../../components/Slider";
 export default {
   components: {
     list,
+    Slider,
   },
   mounted: function () {
     // var data = {
@@ -39,7 +37,6 @@ export default {
         data: { file: "list" },
       })
       .then((res) => {
-        console.log(res);
         if (res.domain_list) {
           this.domain_list = res.domain_list;
         }
