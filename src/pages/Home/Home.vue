@@ -1,9 +1,13 @@
 <template>
   <div>
     <!-- 轮播 -->
-    <Slider :imgList="imgList"></Slider>
+    <keep-alive>
+      <Slider :imgList="imgList"></Slider>
+    </keep-alive>
     <h2>动态表头</h2>
-    <list :list="domain_list" :headerConfig="headerConfig"></list>
+    <keep-alive>
+      <list :list="domain_list" :headerConfig="headerConfig"></list>
+    </keep-alive>
 
     <h2>VUEX</h2>
     <p>vuex-name状态: {{ $store.state.name }}</p>
