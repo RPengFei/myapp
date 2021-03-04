@@ -47,8 +47,7 @@ export default {
             type: "success",
             message: "退出成功!",
           });
-          strong.removeItem("token");
-          strong.removeItem("user");
+          strong.clear();
           this.$router.push("/login");
         })
         .catch(() => {});
