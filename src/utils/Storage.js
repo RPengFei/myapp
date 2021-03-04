@@ -1,14 +1,16 @@
+import CryptoJS from "crypto-js";
+
 export default {
-    getItem(key){
+    getItem(key) {
         return localStorage.getItem(key)
     },
-    setItem(key,value){
-        localStorage.setItem(key,value)
+    setItem(key, value) {
+        localStorage.setItem(key, value)
     },
-    removeItem(key){
+    removeItem(key) {
         localStorage.removeItem(key)
     },
-    clear(){
+    clear() {
         localStorage.clear();
     }
 }
