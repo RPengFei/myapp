@@ -12,9 +12,10 @@ export default {
         }
         console.log(Encrypt(key));
 
-
-
-        return JSON.parse(Decrypt(localStorage.getItem(Encrypt(key))))
+        let data = localStorage.getItem(Encrypt(key))
+        if (data) {
+            return JSON.parse(Decrypt(data))
+        }
     },
     setItem(key, value) {
         if (!key || !value) {

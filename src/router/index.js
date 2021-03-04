@@ -42,7 +42,11 @@ const router = new VueRouter({
       name: 'person',
       component: Person
     },
+    {
+      path: '*',
 
+      component: Login
+    },
   ]
 })
 
