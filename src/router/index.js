@@ -21,7 +21,6 @@ const router = new VueRouter({
         } else {
           next()
         }
-
       },
       children: [{
         path: '/',

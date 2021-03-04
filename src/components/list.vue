@@ -53,7 +53,7 @@ export default {
     },
     handleDelete: function (index, row) {
       console.log(index, row);
-      this.$emit("deleteRow", index);
+      this.$emit("deleteRow", index, row);
     },
   },
 };
@@ -62,7 +62,6 @@ export default {
 .el-table .warning-row {
   background: oldlace;
 }
-
 .el-table .success-row {
   background: #f0f9eb;
 }

@@ -177,9 +177,9 @@ export default {
               loading.close();
               if (res.token) {
                 strong.setItem("token", res.token);
-                this.$store.state.token = res.token;
-                this.$store.state.user = res.buser;
-
+                console.log(res._id);
+                strong.setItem("user", JSON.stringify(res.buser));
+                // this.$store.commit("setToken", res.token);
                 this.$router.push("/");
               } else {
                 this.$message.error(res.msg);

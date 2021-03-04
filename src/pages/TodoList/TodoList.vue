@@ -4,7 +4,7 @@
       <el-tab-pane>
         <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
         <div class="add">
-          <el-input v-model="input" placeholder="请输入内容"></el-input>
+          <el-input v-model.trim="input" placeholder="请输入内容"></el-input>
           <el-button type="primary" @click="addMsg">添加</el-button>
           <el-button type="success" @click="search">搜索</el-button>
           <el-button type="warning" @click="rest">重置</el-button>
@@ -16,6 +16,8 @@
           @deleteRow="deleteRow"
           :showAdd="true"
         ></list>
+        <!-- <el-pagination background layout="prev, pager, next" :total="1000">
+        </el-pagination> -->
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -23,6 +25,7 @@
 
 <script>
 import list from "../../components/list";
+import strong from "../../utils/Storage";
 export default {
   components: {
     list,
@@ -31,36 +34,101 @@ export default {
   data: function () {
     return {
       list: [],
-      headerConfig: [{ prop: "name", label: "名称" }],
+      headerConfig: [{ prop: "todo", label: "名称" }],
       input: undefined,
+      user: JSON.parse(strong.getItem("user")),
     };
+  },
+  mounted: function () {
+    this.getData();
   },
   methods: {
     addMsg: function () {
-      console.log(this.input);
-      this.list.push({ name: this.input });
-      this.input = null;
-      console.log(this.list);
-      this.$message({
-        message: "添加成功！",
-        type: "success",
+      if (!this.input) {
+        this.$message({
+          message: "请输入内容",
+          type: "warning",
+        });
+        return;
+      }
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "#e0e4ea80",
+      });
+      var data = {
+        servername: "addTodoList",
+        data: {
+          personid: this.user._id,
+          todo: this.input,
+        },
+      };
+      this.$axios.post("/api/api_list", data).then((res) => {
+        console.log(res);
+        loading.close();
+        if (res) {
+          this.list.push({ todo: this.input });
+          this.input = null;
+          this.$message({
+            message: "添加成功！",
+            type: "success",
+          });
+        }
       });
     },
     search: function () {},
-    deleteRow: function (index) {
-      console.log(index);
-      this.list.splice(index, 1);
-      this.$message({
-        message: "删除成功！",
-        type: "success",
-      });
+    deleteRow: function (index, row) {
+      console.log(row._id);
+      var data = {
+        servername: "deleteTodoList",
+        data: {
+          id: row._id,
+        },
+      };
+      console.log(data);
+      this.$confirm("是否删除该条记录, 是否继续?", "", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$axios.post("/api/api_list", data).then((res) => {
+            console.log(res);
+            if (res) {
+              this.list.splice(index, 1);
+              this.$message({
+                message: "删除成功！",
+                type: "success",
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     rest: function () {
       this.input = null;
       this.getData();
     },
-    getData: function (key) {
-      console.log(key);
+    getData: function () {
+      var data = {
+        servername: "getUserTodoList",
+        data: {
+          personid: this.user._id,
+        },
+      };
+      console.log(data);
+      this.$axios.post("/api/api_list", data).then((res) => {
+        console.log(res);
+        if (res) {
+          this.list = res;
+        }
+      });
     },
   },
 };
