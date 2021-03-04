@@ -25,7 +25,7 @@ export default {
   name: "myhader",
   data() {
     return {
-      user: JSON.parse(strong.getItem("user")),
+      user: strong.getItem("user"),
     };
   },
   //辅助函数

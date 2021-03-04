@@ -36,7 +36,7 @@ export default {
       list: [],
       headerConfig: [{ prop: "todo", label: "名称" }],
       input: undefined,
-      user: JSON.parse(strong.getItem("user")),
+      user: strong.getItem("user"),
     };
   },
   mounted: function () {

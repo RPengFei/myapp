@@ -157,7 +157,8 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      console.log(strong.getItem("token"));
+      console.log("token", strong.getItem("token"));
+      console.log("user", strong.getItem("user"));
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.loginForm);
@@ -180,10 +181,7 @@ export default {
                 strong.clear();
                 strong.setItem("token", res.token);
                 strong.setItem("user", res.buser);
-
-                console.log(strong.getItem("token"));
-                // this.$store.commit("setToken", res.token);
-                // this.$router.push("/");
+                this.$router.push("/");
               } else {
                 this.$message.error(res.msg);
               }
@@ -206,7 +204,9 @@ export default {
       });
     },
   },
-  mounted() {},
+  mounted() {
+    strong.getItem("token");
+  },
 };
 </script>
 <style lang="less" scoped>
