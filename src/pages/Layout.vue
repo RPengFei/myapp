@@ -1,11 +1,11 @@
 <template>
   <div>
     <myhader></myhader>
-    <keep-alive>
-      <transition>
+    <transition>
+      <keep-alive>
         <router-view></router-view>
-      </transition>
-    </keep-alive>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <script>

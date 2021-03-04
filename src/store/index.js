@@ -5,15 +5,30 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    name: 'test',
     token: undefined,
     user: null
   },
   mutations: {
-    update() {
-      state.name = 'setName'
+    setUser(state, data) {
+      state.user = data;
+    },
+    setToken(state, data) {
+      state.token = data
     }
   },
-  actions: {},
+  actions: {
+    login: function (context) {
+      this.$axios
+        .post("/api/api_list", {
+          servername: "getUser",
+        })
+        .then((res) => {
+          if (res.user) {
+            console.log(res.user);
+            context.commit('setUser', res.user)
+          }
+        });
+    }
+  },
   modules: {}
 })

@@ -13,7 +13,6 @@
       <el-menu-item index="/todoList" route="/todoList">TodoList</el-menu-item>
       <el-menu-item>
         <span class="user">欢迎回来：{{ this.user.username }}</span>
-
         <el-button type="warning" @click="loguot">退出登录</el-button>
       </el-menu-item>
     </el-menu>
@@ -21,24 +20,20 @@
 </template>
 <script>
 import strong from "../utils/Storage";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "myhader",
   data() {
     return {
-      user: {},
+      user: JSON.parse(strong.getItem("user")),
     };
   },
+  //辅助函数
+  computed: {
+    ...mapState(["token"]),
+  },
   mounted() {
-    this.$axios
-      .post("/api/api_list", {
-        servername: "getUser",
-      })
-      .then((res) => {
-        if (res.user) {
-          this.user = res.user;
-          console.log(this.user);
-        }
-      });
+    console.log();
   },
   methods: {
     loguot: function () {
@@ -52,8 +47,7 @@ export default {
             type: "success",
             message: "退出成功!",
           });
-
-          strong.removeItem("token");
+          strong.clear();
           this.$router.push("/login");
         })
         .catch(() => {});

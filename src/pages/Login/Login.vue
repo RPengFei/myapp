@@ -157,6 +157,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
+      console.log(strong.getItem("token"));
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.loginForm);
@@ -176,11 +177,13 @@ export default {
               console.log(res);
               loading.close();
               if (res.token) {
+                strong.clear();
                 strong.setItem("token", res.token);
-                this.$store.state.token = res.token;
-                this.$store.state.user = res.buser;
+                strong.setItem("user", res.buser);
 
-                this.$router.push("/");
+                console.log(strong.getItem("token"));
+                // this.$store.commit("setToken", res.token);
+                // this.$router.push("/");
               } else {
                 this.$message.error(res.msg);
               }
