@@ -77,7 +77,22 @@ export default {
         }
       });
     },
-    search: function () {},
+    search: function () {
+      var data = {
+        servername: "searchUserTodoList",
+        data: {
+          personid: this.user._id,
+          key: this.input,
+        },
+      };
+      console.log(data);
+      this.$axios.post("/api/api_list", data).then((res) => {
+        console.log(res);
+        if (res) {
+          this.list = res;
+        }
+      });
+    },
     deleteRow: function (index, row) {
       console.log(row._id);
       var data = {

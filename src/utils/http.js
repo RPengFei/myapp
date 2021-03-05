@@ -1,7 +1,9 @@
 import axios from "axios"
-import qs from "querystring"
 import strong from './Storage'
-
+import {
+    Encrypt,
+    Decrypt
+} from './dec'
 // 错误信息处理函数
 const errorHandle = (status, other) => {
     switch (status) {
@@ -41,7 +43,10 @@ instance.defaults.headers.Authorization = strong.getItem('token')
 instance.interceptors.request.use(config => {
     if (config.method === 'post') {
 
+        // config.data = Encrypt(JSON.stringify(config.data))
+        // console.log(Decrypt(config.data));
     }
+    // console.log(config);
     return config;
 }, error => Promise.reject(error));
 

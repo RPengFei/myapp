@@ -11,9 +11,11 @@
         :prop="item.prop"
         :label="item.label"
         :width="item.width"
+        class="animated bounceInDown"
       >
       </el-table-column>
     </template>
+
     <el-table-column label="操作" v-if="showAdd" width="100">
       <template slot-scope="scope">
         <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"

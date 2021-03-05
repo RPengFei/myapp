@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '../pages/Home/Home'
 import Login from '../pages/Login/Login'
+import NotFound from '../pages/NotFound/NotFound'
 import Person from '../pages/Login/Personcenter'
 import Layout from '../pages/Layout'
 import TodoList from '../pages/TodoList/TodoList'
@@ -38,14 +39,13 @@ const router = new VueRouter({
       component: Login
     },
     {
-      path: '/p',
+      path: '/test',
       name: 'person',
       component: Person
     },
     {
       path: '*',
-
-      component: Login
+      component: NotFound
     },
   ]
 })

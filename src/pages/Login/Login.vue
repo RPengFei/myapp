@@ -20,21 +20,27 @@
                   prefix-icon="el-icon-s-custom"
                 ></el-input>
               </el-form-item>
-
               <el-form-item label="用户密码" prop="password">
                 <el-input
                   prefix-icon="el-icon-key"
                   placeholder="请输入密码"
-                  v-model.trim="loginForm.password"
+                  v-model.trim.lazy="loginForm.password"
                   show-password
                 ></el-input>
               </el-form-item>
+              <!-- <div class="yz">
+                <test
+                  :successFun="handleSuccessFun"
+                  :errorFun="handleErrorFun"
+                ></test>
+              </div> -->
 
               <el-button type="primary" @click="submitForm('loginForm')"
                 >登录</el-button
               >
             </el-form>
           </el-tab-pane>
+
           <el-tab-pane>
             <span slot="label"><i class="el-icon-user"></i>注册</span>
             <el-form
@@ -45,16 +51,30 @@
               class="demo-ruleForm"
             >
               <el-form-item label="用户名" prop="username">
-                <el-input v-model.trim="register.username"></el-input>
+                <el-input
+                  v-model.trim="register.username"
+                  placeholder="请输入用户名"
+                ></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input v-model.trim="register.password"></el-input>
+                <el-input
+                  v-model.trim="register.password"
+                  show-password
+                  placeholder="请输入密码"
+                ></el-input>
               </el-form-item>
               <el-form-item label="确认密码" prop="confirmpassword">
-                <el-input v-model.trim="register.confirmpassword"></el-input>
+                <el-input
+                  v-model.trim="register.confirmpassword"
+                  placeholder="请输入密码"
+                  show-password
+                ></el-input>
               </el-form-item>
               <el-form-item label="手机号" prop="phone">
-                <el-input v-model.trim="register.phone"></el-input>
+                <el-input
+                  v-model.trim="register.phone"
+                  placeholder="请输入手机号"
+                ></el-input>
               </el-form-item>
 
               <el-button type="primary" @click="registerSubmitForm('register')"
@@ -108,10 +128,42 @@
   </div>
 </template>
 <script>
+import test from "../../components/Test";
 import strong from "../../utils/Storage";
 export default {
+  components: { test },
   name: "Login",
   data() {
+    let checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      }
+      var phonenoExp = /^(1[3,4,5,6,7,8,9])\d{9}$/;
+      if (phonenoExp.test(value)) {
+        callback();
+      } else {
+        callback(new Error("手机号格式错误"));
+      }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.register.checkPass !== "") {
+          this.$refs.register.validateField("checkPass");
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.register.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       loginForm: {
         username: "",
@@ -144,11 +196,18 @@ export default {
           { min: 3, max: 6, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
+          { validator: validatePass, trigger: "blur", required: true },
+          { min: 3, max: 6, message: "长度在 3 到 5 个字符" },
+        ],
+        confirmpassword: [
+          { validator: validatePass2, trigger: "blur", required: true },
+          { min: 3, max: 6, message: "长度在 3 到 5 个字符" },
+        ],
+        phone: [
           {
-            min: 6,
-            max: 12,
-            message: "长度在 6 到 12 个字符",
+            required: true,
+            message: "",
+            validator: checkPhone,
             trigger: "blur",
           },
         ],
@@ -156,6 +215,11 @@ export default {
     };
   },
   methods: {
+    handleSuccessFun() {
+      console.log(1);
+    },
+    // 滑块验证失败回调
+    handleErrorFun() {},
     submitForm(formName) {
       console.log("token", strong.getItem("token"));
       console.log("user", strong.getItem("user"));
@@ -177,13 +241,14 @@ export default {
             .then((res) => {
               console.log(res);
               loading.close();
+
               if (res.token) {
                 strong.clear();
                 strong.setItem("token", res.token);
                 strong.setItem("user", res.buser);
                 this.$router.push("/");
               } else {
-                this.$message.error(res.msg);
+                this.$message.error("用户名或密码错误！");
               }
             });
         } else {
@@ -195,8 +260,34 @@ export default {
     registerSubmitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.loginForm);
-          alert("submit!");
+          console.log(this.register);
+          const loading = this.$loading({
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)",
+          });
+
+          this.$axios
+            .post("/api/api_list", {
+              servername: "register",
+              data: this.register,
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.code == 1) {
+                this.$message({
+                  message: "添加成功！快去登录吧！",
+                  type: "success",
+                });
+              } else {
+                this.$message({
+                  message: res.msg,
+                  type: "warning",
+                });
+              }
+              loading.close();
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -213,23 +304,29 @@ export default {
 .line {
   margin: 30px 0;
 }
-
-h1 {
-  font-family: "Lato", "sans-serif";
-  font-weight: 300;
-  /* font-spacing:2px; */
-  font-size: 48px;
+.yz {
+  width: 75%;
+  margin: 0px auto 10px auto;
+}
+.login {
+  // width: 440px;
+  // box-shadow: 2px 2px 15px #fff;
+  // background: #fff;
+  // background: rgba(4, 4, 4, 0.56);
+  // -webkit-box-shadow: 0px 35px 44px -22px rgb(0 0 0 / 72%);
+  // -moz-box-shadow: 0px 35px 44px -22px rgba(0, 0, 0, 0.72);
+  // box-shadow: 0px 35px 44px -22px #1f181b;
+  // padding: 60px 40px;
+}
+.el-tabs--border-card {
+  background: rgb(255 255 255 / 70%);
+  box-shadow: 0px 35px 44px -22px #1f181b;
 }
 
-.login {
-  width: 440px;
-  box-shadow: 2px 2px 15px #fff;
-  background: #fff;
-  background: rgba(4, 4, 4, 0.56);
-  -webkit-box-shadow: 0px 35px 44px -22px rgb(0 0 0 / 72%);
-  -moz-box-shadow: 0px 35px 44px -22px rgba(0, 0, 0, 0.72);
-  box-shadow: 0px 35px 44px -22px #1f181b;
-  padding: 60px 40px;
+.el-tabs--border-card > .el-tabs__header {
+  background-color: rgb(242 236 252 / 44%);
+
+  margin: 0;
 }
 .el-form-item {
   padding-right: 55px;

@@ -6,7 +6,6 @@ import './plugins/rest.css'
 import App from './App.vue'
 import './plugins/rest.css'
 import axios from './utils/http'
-
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 

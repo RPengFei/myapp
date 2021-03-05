@@ -3,15 +3,12 @@ import {
     Decrypt
 } from './dec'
 
-console.log(Encrypt(111));
-
 export default {
     getItem(key) {
         if (!key) {
             return;
         }
         console.log(Encrypt(key));
-
         let data = localStorage.getItem(Encrypt(key))
         if (data) {
             return JSON.parse(Decrypt(data))
@@ -21,13 +18,8 @@ export default {
         if (!key || !value) {
             return;
         }
-
-
-
         let dv = JSON.stringify(value)
-
         localStorage.setItem(Encrypt(key), Encrypt(dv))
-
     },
     removeItem(key) {
         localStorage.removeItem(key)
