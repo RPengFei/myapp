@@ -1,10 +1,5 @@
 <template>
-  <el-table
-    :data="list"
-    style="width: 100%"
-    :row-class-name="tableRowClassName"
-    :autoplay="true"
-  >
+  <el-table :data="list" style="width: 100%" :autoplay="true" stripe>
     <template v-for="(item, index) in headerConfig">
       <el-table-column
         :key="index"
@@ -45,14 +40,6 @@ export default {
     return {};
   },
   methods: {
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return "warning-row";
-      } else if (rowIndex === 3) {
-        return "success-row";
-      }
-      return "";
-    },
     handleDelete: function (index, row) {
       console.log(index, row);
       this.$emit("deleteRow", index, row);
@@ -61,17 +48,4 @@ export default {
 };
 </script>
 <style lang="less">
-.el-table .warning-row {
-  background: oldlace;
-}
-.el-table .success-row {
-  background: #f0f9eb;
-}
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
 </style>
