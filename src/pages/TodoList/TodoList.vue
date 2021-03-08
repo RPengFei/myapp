@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="todolist">
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
@@ -40,7 +40,7 @@ export default {
     };
   },
   mounted: function () {
-    this.getData();
+    // this.getData();
   },
   methods: {
     addMsg: function () {
@@ -153,5 +153,9 @@ export default {
 .add .el-input {
   width: calc(100% - 240px);
   margin-right: 10px;
+}
+.todolist {
+  width: 1200px;
+  margin: 0 auto;
 }
 </style>

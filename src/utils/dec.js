@@ -27,9 +27,6 @@ function Encrypt(word) {
   return encrypted.ciphertext.toString().toUpperCase();
 }
 
-
-console.log(Decrypt('FD9E8EAA3A0C3E41216C0F3F4D03CFC3'));
-
 export {
   Encrypt,
   Decrypt

@@ -2,87 +2,98 @@
   <div class="header">
     <!-- 标题区域 -->
     <div class="lnner-header">
-      <div class="login">
-        <el-tabs type="border-card">
-          <el-tab-pane>
-            <span slot="label"><i class="el-icon-user-solid"></i> 登录</span>
-            <el-form
-              :model="loginForm"
-              :rules="rules"
-              ref="loginForm"
-              label-width="120px"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="用户名" prop="username">
-                <el-input
-                  v-model.trim="loginForm.username"
-                  placeholder="请输入用户名"
-                  prefix-icon="el-icon-s-custom"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="用户密码" prop="password">
-                <el-input
-                  prefix-icon="el-icon-key"
-                  placeholder="请输入密码"
-                  v-model.trim.lazy="loginForm.password"
-                  show-password
-                ></el-input>
-              </el-form-item>
-              <!-- <div class="yz">
-                <test
-                  :successFun="handleSuccessFun"
-                  :errorFun="handleErrorFun"
-                ></test>
-              </div> -->
-
-              <el-button type="primary" @click="submitForm('loginForm')"
-                >登录</el-button
+      <div id="loginAndRegister">
+        <div class="login" v-show="showLogin == 1">
+          <h1>登录</h1>
+          <div class="line">
+            <input
+              type="text"
+              v-model.trim="loginForm.phone"
+              placeholder="手机号"
+              @blur="checkLoginPhone"
+            />
+            <p class="tips">
+              <i class="el-icon-warning-outline" v-show="loginTips.phoneTips">{{
+                loginTips.phoneTips
+              }}</i>
+            </p>
+          </div>
+          <div class="line">
+            <input
+              type="password"
+              v-model.trim="loginForm.password"
+              placeholder="密码"
+              @blur="checkLoginPassword"
+              @keyup.enter="submitForm"
+            />
+            <p class="tips">
+              <i
+                class="el-icon-warning-outline"
+                v-show="loginTips.passwordTips"
+                >{{ loginTips.passwordTips }}</i
               >
-            </el-form>
-          </el-tab-pane>
+            </p>
+          </div>
 
-          <el-tab-pane>
-            <span slot="label"><i class="el-icon-user"></i>注册</span>
-            <el-form
-              :model="register"
-              :rules="registerRules"
-              ref="register"
-              label-width="120px"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="用户名" prop="username">
-                <el-input
-                  v-model.trim="register.username"
-                  placeholder="请输入用户名"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="密码" prop="password">
-                <el-input
-                  v-model.trim="register.password"
-                  show-password
-                  placeholder="请输入密码"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码" prop="confirmpassword">
-                <el-input
-                  v-model.trim="register.confirmpassword"
-                  placeholder="请输入密码"
-                  show-password
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="手机号" prop="phone">
-                <el-input
-                  v-model.trim="register.phone"
-                  placeholder="请输入手机号"
-                ></el-input>
-              </el-form-item>
+          <el-button type="primary" @click="submitForm">登录</el-button>
+          <div class="link">
+            <a class="togoRegister" @click="tab('2')">立即注册</a>
+          </div>
+        </div>
 
-              <el-button type="primary" @click="registerSubmitForm('register')"
-                >登录</el-button
+        <div class="register" v-show="showLogin != 1">
+          <h1>注册</h1>
+          <div class="line">
+            <input
+              type="text"
+              v-model.trim="register.phone"
+              placeholder="手机号"
+              @blur="checkRegPhone"
+            />
+            <p class="tips">
+              <i
+                class="el-icon-warning-outline"
+                v-show="registerTips.phoneTips"
+                >{{ registerTips.phoneTips }}</i
               >
-            </el-form>
-          </el-tab-pane>
-        </el-tabs>
+            </p>
+          </div>
+          <div class="line">
+            <input
+              type="password"
+              v-model.trim="register.password"
+              placeholder="密码"
+              @blur="checkRegPassword"
+            />
+            <p class="tips">
+              <i
+                class="el-icon-warning-outline"
+                v-show="registerTips.passwordTips"
+                >{{ registerTips.passwordTips }}</i
+              >
+            </p>
+          </div>
+          <div class="line">
+            <input
+              type="password"
+              v-model.trim="register.confirmpassword"
+              placeholder="确认密码"
+              @blur="checkRegConfirmPassword()"
+              @keyup.enter="registerSubmitForm"
+            />
+            <p class="tips">
+              <i
+                class="el-icon-warning-outline"
+                v-show="registerTips.confirmpasswordTips"
+                >{{ registerTips.confirmpasswordTips }}</i
+              >
+            </p>
+          </div>
+          <el-button type="primary" @click="registerSubmitForm">注册</el-button>
+          <div class="link">
+            <a class="togoRegister" @click="tab('1')">去登录</a>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 波浪区域 -->
@@ -128,209 +139,261 @@
   </div>
 </template>
 <script>
-import test from "../../components/Test";
 import strong from "../../utils/Storage";
 export default {
-  components: { test },
   name: "Login",
   data() {
-    let checkPhone = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("手机号不能为空"));
-      }
-      var phonenoExp = /^(1[3,4,5,6,7,8,9])\d{9}$/;
-      if (phonenoExp.test(value)) {
-        callback();
-      } else {
-        callback(new Error("手机号格式错误"));
-      }
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.register.checkPass !== "") {
-          this.$refs.register.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.register.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
+      showLogin: 1,
       loginForm: {
-        username: "",
+        phone: "",
         password: "",
       },
-      rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
-        password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 12,
-            message: "长度在 6 到 12 个字符",
-            trigger: "blur",
-          },
-        ],
+      loginTips: {
+        phoneTips: "",
+        passwordTips: "",
       },
       register: {
-        username: "",
+        phone: "",
         password: "",
         confirmpassword: "",
-        phone: "",
       },
-      registerRules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 6, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
-        password: [
-          { validator: validatePass, trigger: "blur", required: true },
-          { min: 3, max: 6, message: "长度在 3 到 5 个字符" },
-        ],
-        confirmpassword: [
-          { validator: validatePass2, trigger: "blur", required: true },
-          { min: 3, max: 6, message: "长度在 3 到 5 个字符" },
-        ],
-        phone: [
-          {
-            required: true,
-            message: "",
-            validator: checkPhone,
-            trigger: "blur",
-          },
-        ],
+      registerTips: {
+        phoneTips: "",
+        passwordTips: "",
+        confirmpasswordTips: "",
       },
     };
   },
   methods: {
-    handleSuccessFun() {
-      console.log(1);
+    tab(type) {
+      this.showLogin = type;
     },
-    // 滑块验证失败回调
-    handleErrorFun() {},
-    submitForm(formName) {
-      console.log("token", strong.getItem("token"));
-      console.log("user", strong.getItem("user"));
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log(this.loginForm);
-          const loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)",
-          });
-
-          this.$axios
-            .post("/api/api_list", {
-              servername: "login",
-              data: this.loginForm,
-            })
-            .then((res) => {
-              console.log(res);
-              loading.close();
-
-              if (res.token) {
-                strong.clear();
-                strong.setItem("token", res.token);
-                strong.setItem("user", res.buser);
-                this.$router.push("/");
-              } else {
-                this.$message.error("用户名或密码错误！");
-              }
-            });
+    checkLoginPhone() {
+      if (!this.loginForm.phone) {
+        this.loginTips.phoneTips = "请填写手机号";
+      } else {
+        if (/^(1[3,4,5,6,7,8,9])\d{9}$/.test(this.loginForm.phone)) {
+          this.loginTips.phoneTips = "";
+          return true;
         } else {
-          console.log("error submit!!");
+          this.loginTips.phoneTips = "手机号格式错误";
           return false;
         }
-      });
+      }
     },
-    registerSubmitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log(this.register);
-          const loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)",
-          });
-
-          this.$axios
-            .post("/api/api_list", {
-              servername: "register",
-              data: this.register,
-            })
-            .then((res) => {
-              console.log(res);
-              if (res.code == 1) {
-                this.$message({
-                  message: "添加成功！快去登录吧！",
-                  type: "success",
-                });
-              } else {
-                this.$message({
-                  message: res.msg,
-                  type: "warning",
-                });
-              }
-              loading.close();
-            });
+    checkLoginPassword() {
+      if (!this.loginForm.password) {
+        this.loginTips.passwordTips = "请填写密码";
+      } else {
+        if (
+          /((?=.*[a-z])(?=.*\d)|(?=[a-z])(?=.*[#@!~%^&*+_-])|(?=.*\d)(?=.*[#@!~%^&*+_-])){8,18}/i.test(
+            this.loginForm.password
+          )
+        ) {
+          this.loginTips.passwordTips = "";
+          return true;
         } else {
-          console.log("error submit!!");
+          this.loginTips.passwordTips =
+            "安全等级低，至少包含数字、字母、符号中两种组合";
           return false;
         }
+      }
+    },
+    submitForm() {
+      if (!this.checkLoginPhone() | !this.checkLoginPassword()) {
+        return;
+      }
+      console.log(this.loginForm);
+
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
       });
+      this.$axios
+        .post("/api/api_list", {
+          servername: "login",
+          data: this.loginForm,
+        })
+        .then((res) => {
+          console.log(res);
+          loading.close();
+
+          if (res.token) {
+            strong.clear();
+            strong.setItem("token", res.token);
+            strong.setItem("user", res.buser);
+            this.$router.push("/");
+          } else {
+            this.$message.error("用户名或密码错误！");
+          }
+        });
+    },
+    checkRegPhone() {
+      if (!this.register.phone) {
+        this.registerTips.phoneTips = "请填写手机号";
+      } else {
+        if (/^(1[3,4,5,6,7,8,9])\d{9}$/.test(this.register.phone)) {
+          this.registerTips.phoneTips = "";
+          return true;
+        } else {
+          this.registerTips.phoneTips = "手机号格式错误";
+          return false;
+        }
+      }
+    },
+    checkRegPassword() {
+      if (!this.register.password) {
+        this.registerTips.passwordTips = "请填写密码";
+      } else {
+        if (
+          /((?=.*[a-z])(?=.*\d)|(?=[a-z])(?=.*[#@!~%^&*+_-])|(?=.*\d)(?=.*[#@!~%^&*+_-])){8,18}/i.test(
+            this.register.password
+          )
+        ) {
+          this.registerTips.passwordTips = "";
+          return true;
+        } else {
+          this.registerTips.passwordTips =
+            "安全等级低，至少包含数字、字母、符号中两种组合";
+          return false;
+        }
+      }
+    },
+    checkRegConfirmPassword() {
+      if (!this.register.confirmpassword) {
+        this.registerTips.confirmpasswordTips = "请填写密码";
+        return false;
+      }
+      if (this.register.password === this.register.confirmpassword) {
+        this.registerTips.confirmpasswordTips = "";
+        return true;
+      } else {
+        this.registerTips.confirmpasswordTips = "两次密码不一致";
+        return false;
+      }
+    },
+    registerSubmitForm() {
+      console.log(this.register);
+      if (
+        !this.checkRegPhone() |
+        !this.checkRegPassword() |
+        !this.checkRegConfirmPassword()
+      ) {
+        return;
+      }
+
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      this.$axios
+        .post("/api/api_list", {
+          servername: "register",
+          data: this.register,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.code == 1) {
+            this.$message({
+              message: "添加成功！快去登录吧！",
+              type: "success",
+            });
+            this.showLogin = 1;
+          } else {
+            this.$message({
+              message: res.msg,
+              type: "warning",
+            });
+          }
+          loading.close();
+        });
     },
   },
-  mounted() {
-    strong.getItem("token");
-  },
+  mounted() {},
 };
 </script>
 <style lang="less" scoped>
-.line {
-  margin: 30px 0;
-}
-.yz {
-  width: 75%;
-  margin: 0px auto 10px auto;
-}
-.login {
-  // width: 440px;
-  // box-shadow: 2px 2px 15px #fff;
-  // background: #fff;
-  // background: rgba(4, 4, 4, 0.56);
-  // -webkit-box-shadow: 0px 35px 44px -22px rgb(0 0 0 / 72%);
-  // -moz-box-shadow: 0px 35px 44px -22px rgba(0, 0, 0, 0.72);
-  // box-shadow: 0px 35px 44px -22px #1f181b;
-  // padding: 60px 40px;
-}
-.el-tabs--border-card {
-  background: rgb(255 255 255 / 70%);
+#loginAndRegister {
+  width: 440px;
+  background: #fff;
+  padding: 10px;
+  -webkit-box-shadow: 0px 35px 44px -22px rgb(0 0 0 / 72%);
+  -moz-box-shadow: 0px 35px 44px -22px rgba(0, 0, 0, 0.72);
   box-shadow: 0px 35px 44px -22px #1f181b;
+  border-radius: 12px;
+  h1 {
+    text-align: left;
+    font-size: 40px;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: 0;
+    padding: 18px 0 17px 0;
+  }
+  .el-button--primary {
+    width: 100%;
+    margin: 0 0 22px 0;
+    padding: 20px 0;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #2196f3;
+  }
+
+  .line {
+    margin: 10px auto;
+    i {
+      margin-right: 4px;
+      font-size: 14px;
+    }
+  }
+  .tips {
+    color: #e30000;
+    text-align: left;
+    margin: 8px 2px;
+    font-size: 12px;
+    height: 15px;
+  }
+  input {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 55px;
+    line-height: 55px;
+    outline: 0;
+    padding: 0 15px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    width: 100%;
+  }
+  input:hover {
+    border: 3px solid #2196f3;
+  }
+  .link {
+    text-align: left;
+    margin: 10px 0 16px 2px;
+  }
+  .togoRegister {
+    color: #1e7ee1;
+    font-size: 16px;
+    line-height: 1.47059;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .el-icon-warning-outline:before {
+    margin-right: 4px;
+  }
 }
 
-.el-tabs--border-card > .el-tabs__header {
-  background-color: rgb(242 236 252 / 44%);
-
-  margin: 0;
-}
-.el-form-item {
-  padding-right: 55px;
-}
 .header {
   position: relative;
   text-align: center;
@@ -340,7 +403,7 @@ export default {
     rgba(84, 58, 183, 1) 0%,
     rgba(0, 172, 193, 1) 100%
   );
-  color: wheat;
+  color: #1d1d1f;
 }
 
 .lnner-header {
