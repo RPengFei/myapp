@@ -186,16 +186,11 @@ export default {
       if (!this.loginForm.password) {
         this.loginTips.passwordTips = "请填写密码";
       } else {
-        if (
-          /((?=.*[a-z])(?=.*\d)|(?=[a-z])(?=.*[#@!~%^&*+_-])|(?=.*\d)(?=.*[#@!~%^&*+_-])){8,18}/i.test(
-            this.loginForm.password
-          )
-        ) {
+        if (this.loginForm.password && this.loginForm.password.length > 5) {
           this.loginTips.passwordTips = "";
           return true;
         } else {
-          this.loginTips.passwordTips =
-            "安全等级低，至少包含数字、字母、符号中两种组合";
+          this.loginTips.passwordTips = "请输入密码";
           return false;
         }
       }

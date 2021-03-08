@@ -9,7 +9,7 @@
       active-text-color="#ffd04b"
       :router="true"
     >
-      <el-menu-item index="/" route="/">首页</el-menu-item>
+      <el-menu-item index="/home" route="/home">首页</el-menu-item>
       <el-menu-item index="/todoList" route="/todoList">TodoList</el-menu-item>
       <el-menu-item v-if="this.user" style="float: right">
         <span class="user">欢迎回来：{{ this.user.phone }}</span>
@@ -48,7 +48,8 @@ export default {
             message: "退出成功!",
           });
           strong.clear();
-          this.$router.push("/");
+          this.user = null;
+          this.$router.push("/home");
         })
         .catch(() => {});
     },

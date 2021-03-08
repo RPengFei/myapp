@@ -1,25 +1,23 @@
 <template>
-  <div class="todolist">
-    <el-tabs type="border-card">
-      <el-tab-pane>
-        <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
-        <div class="add">
-          <el-input v-model.trim="input" placeholder="请输入内容"></el-input>
-          <el-button type="primary" @click="addMsg">添加</el-button>
-          <el-button type="success" @click="search">搜索</el-button>
-          <el-button type="warning" @click="rest">重置</el-button>
-        </div>
+  <div class="body">
+    <div class="todolist">
+      <h1>我的行程</h1>
+      <div class="add">
+        <el-input v-model.trim="input" placeholder="请输入内容"></el-input>
+        <el-button type="primary" @click="addMsg">添加</el-button>
+        <el-button type="success" @click="search">搜索</el-button>
+        <el-button type="warning" @click="rest">重置</el-button>
+      </div>
 
-        <list
-          :list="list"
-          :headerConfig="headerConfig"
-          @deleteRow="deleteRow"
-          :showAdd="true"
-        ></list>
-        <!-- <el-pagination background layout="prev, pager, next" :total="1000">
+      <list
+        :list="list"
+        :headerConfig="headerConfig"
+        @deleteRow="deleteRow"
+        :showAdd="true"
+      ></list>
+      <!-- <el-pagination background layout="prev, pager, next" :total="1000">
         </el-pagination> -->
-      </el-tab-pane>
-    </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -149,13 +147,30 @@ export default {
 };
 </script>
 
-<style scope>
-.add .el-input {
-  width: calc(100% - 240px);
-  margin-right: 10px;
-}
-.todolist {
+<style scope lang='less'>
+.body {
   width: 1200px;
-  margin: 0 auto;
+  margin: 10px auto;
+  .todolist {
+    border-radius: 12px;
+    box-shadow: 4px 7px 7px 4px #e4e7ed;
+    padding: 10px;
+    transition: all 0.3s;
+    h1 {
+      text-align: left;
+      font-size: 40px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: 0;
+      padding: 20px 0 30px 0;
+    }
+  }
+  .todolist:hover {
+    box-shadow: 4px 7px 7px 4px #c0c4cc9e;
+  }
+  .todolist .add .el-input {
+    width: calc(100% - 240px);
+    margin-right: 10px;
+  }
 }
 </style>

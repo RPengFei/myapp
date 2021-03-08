@@ -12,25 +12,26 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
       path: '/',
+      redirect: '/home',
       name: 'layout',
       component: Layout,
-      beforeEnter: (to, from, next) => {
-        if (!strong.getItem('token')) {
-          next({
-            path: '/login'
-          })
-        } else {
-          next()
-        }
-      },
       children: [{
-        path: '/',
+        path: '/home',
         name: 'home',
         component: Home
       }, {
         path: '/todoList',
         name: 'todoList',
-        component: TodoList
+        component: TodoList,
+        beforeEnter: (to, from, next) => {
+          if (!strong.getItem('token')) {
+            next({
+              path: '/login'
+            })
+          } else {
+            next()
+          }
+        },
       }]
     },
     {
