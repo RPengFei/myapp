@@ -6,9 +6,8 @@ import {
 export default {
     getItem(key) {
         if (!key) {
-            return;
+            return '';
         }
-        console.log(Encrypt(key));
         let data = localStorage.getItem(Encrypt(key))
         if (data) {
             return JSON.parse(Decrypt(data))

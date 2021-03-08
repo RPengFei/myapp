@@ -4,13 +4,12 @@
     <keep-alive>
       <Slider :imgList="imgList"></Slider>
     </keep-alive>
-    <h2>动态表头</h2>
-    <keep-alive>
-      <list :list="domain_list" :headerConfig="headerConfig"></list>
-    </keep-alive>
-
-    <h2>VUEX</h2>
-    <p>vuex-name状态: {{ $store.state.name }}</p>
+    <div class="body">
+      <h2>动态表头</h2>
+      <keep-alive>
+        <list :list="domain_list" :headerConfig="headerConfig"></list>
+      </keep-alive>
+    </div>
   </div>
 </template>
 
@@ -23,18 +22,6 @@ export default {
     Slider,
   },
   mounted: function () {
-    // var data = {
-    //   servername: "updatePerson",
-    //   data: {
-    //     id: "603ef159e25ff239e38c0eb4",
-    //     phone: "18855556666",
-    //   },
-    // };
-
-    // this.$axios.post("/api/api_list", data).then((res) => {
-    //   console.log(res);
-    // });
-
     this.$axios
       .post("/api/api_list", {
         servername: "file",
@@ -46,11 +33,11 @@ export default {
         }
       });
 
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 7; index++) {
       this.imgList.push({
         id: index,
         src:
-          "https://picsum.photos/700/300?random=" +
+          "https://picsum.photos/800/300?random=" +
           Math.ceil(Math.random() * 10),
       });
     }
@@ -71,6 +58,10 @@ export default {
 </script>
 
 <style lang="less" scope>
+.body {
+  width: 1200px;
+  margin: auto;
+}
 h2 {
   text-align: center;
 }

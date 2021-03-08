@@ -11,8 +11,8 @@
     >
       <el-menu-item index="/" route="/">首页</el-menu-item>
       <el-menu-item index="/todoList" route="/todoList">TodoList</el-menu-item>
-      <el-menu-item>
-        <span class="user">欢迎回来：{{ this.user.username }}</span>
+      <el-menu-item v-if="this.user" style="float: right">
+        <span class="user">欢迎回来：{{ this.user.phone }}</span>
         <el-button type="warning" @click="loguot">退出登录</el-button>
       </el-menu-item>
     </el-menu>
@@ -48,7 +48,7 @@ export default {
             message: "退出成功!",
           });
           strong.clear();
-          this.$router.push("/login");
+          this.$router.push("/");
         })
         .catch(() => {});
     },
@@ -56,8 +56,7 @@ export default {
 };
 </script>
 <style lang="less">
-.el-menu--horizontal .el-menu-item:last-child {
-  background: red;
+.fl {
   float: right;
 }
 .user {
