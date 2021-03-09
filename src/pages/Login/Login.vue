@@ -39,6 +39,11 @@
           <div class="link">
             <a class="togoRegister" @click="tab('2')">立即注册</a>
           </div>
+          <div class="link">
+            <router-link :to="'/'" tag="a" class="togoRegister"
+              >不想登录？返回首页</router-link
+            >
+          </div>
         </div>
 
         <div class="register" v-show="showLogin != 1">
@@ -402,7 +407,7 @@ export default {
 }
 
 .lnner-header {
-  height: 65vh;
+  height: 84vh;
   width: 100%;
   margin: 0;
   padding: 0;

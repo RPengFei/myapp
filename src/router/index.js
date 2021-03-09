@@ -10,6 +10,7 @@ import TodoList from '../pages/TodoList/TodoList'
 import strong from "../utils/Storage";
 Vue.use(VueRouter)
 const router = new VueRouter({
+  linkActiveClass: 'active',
   routes: [{
       path: '/',
       redirect: '/home',

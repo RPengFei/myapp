@@ -150,7 +150,7 @@ export default {
 <style scope lang='less'>
 .body {
   width: 1200px;
-  margin: 10px auto;
+  margin: 30px auto;
   .todolist {
     border-radius: 12px;
     box-shadow: 4px 7px 7px 4px #e4e7ed;
