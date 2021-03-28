@@ -1,7 +1,7 @@
 <template>
   <div class="bars">
     <ul class="menu">
-      <router-link :to="'Home'" tag="li" active-class="active"
+      <router-link :to="'home'" tag="li" active-class="active"
         >首页</router-link
       >
       <router-link :to="'TodoList'" tag="li" active-class="active"

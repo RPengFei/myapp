@@ -16,6 +16,7 @@
         <keep-alive>
           <list :list="domain_list" :headerConfig="headerConfig"></list>
         </keep-alive>
+        
       </div>
     </div>
   </div>

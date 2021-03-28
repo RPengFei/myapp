@@ -38,7 +38,7 @@ export default {
     };
   },
   mounted: function () {
-    // this.getData();
+    this.getData();
   },
   methods: {
     addMsg: function () {
