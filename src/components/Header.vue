@@ -4,8 +4,8 @@
       <router-link :to="'home'" tag="li" active-class="active"
         >首页</router-link
       >
-      <router-link :to="'TodoList'" tag="li" active-class="active"
-        >TodoList</router-link
+      <router-link :to="'todoList'" tag="li" active-class="active"
+        >我的行程</router-link
       >
 
       <router-link
